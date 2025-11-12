@@ -12,7 +12,8 @@ public class AdministradorServico : IAdministradorServico
 
     public readonly DbContexto _contexto;
 
-    public AdministradorServico(DbContexto contexto){
+    public AdministradorServico(DbContexto contexto)
+    {
         _contexto = contexto;
     }
 
@@ -45,7 +46,7 @@ public class AdministradorServico : IAdministradorServico
     }
 
 
-     public Administrador? BuscaPorId(int id)
+    public Administrador? BuscaPorId(int id)
     {
         return _contexto.Administradores.Where(v => v.Id == id).FirstOrDefault();
     }
