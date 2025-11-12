@@ -6,7 +6,7 @@ API REST desenvolvida em .NET 6.0 para gerenciamento de veículos com autentica�
 
 Confira o GIF demonstrando brevemente a aplicação:
 
-![Demonstração da Aplicação](GifExemplogif.gif)
+![Demonstração da Aplicação](GifExemplo.gif)
 
 ## 📋 Pré-requisitos
 
