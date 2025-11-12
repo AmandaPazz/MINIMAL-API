@@ -1,0 +1,594 @@
+/* ============================================================================
+   RESET E CONFIGURAÇÕES GLOBAIS
+   ============================================================================ */
+
+/* Reset CSS - Remove estilos padrão do navegador */
+/* * = seletor universal (aplica a todos os elementos) */
+* {
+    margin: 0;              /* Remove margens padrão */
+    padding: 0;             /* Remove paddings padrão */
+    box-sizing: border-box; /* Faz padding e border serem incluídos no width/height */
+}
+
+/* ============================================================================
+   VARIÁVEIS CSS (CUSTOM PROPERTIES)
+   ============================================================================ */
+/* :root = elemento raiz (html), onde definimos variáveis globais */
+/* Variáveis permitem mudar cores em um só lugar e aplicar em todo o site */
+:root {
+    /* Cores Principais */
+    --primary-color: #6366f1;      /* Cor primária (azul/roxo) - botões principais */
+    --primary-dark: #4f46e5;       /* Versão mais escura da cor primária (hover) */
+    --secondary-color: #a5b9d6;    /* Cor secundária (cinza) - botões secundários */
+    
+    /* Cores de Status */
+    --success-color: #10b981;      /* Verde - ações bem-sucedidas */
+    --danger-color: #ef4444;        /* Vermelho - ações perigosas/excluir */
+    
+    /* Cores de Fundo e Superfície */
+    --background: #f8fafc;          /* Cor de fundo da página (cinza claro) */
+    --surface: #ffffff;             /* Cor de fundo de cards/modais (branco) */
+    
+    /* Cores de Texto */
+    --text-primary: #1e293b;        /* Cor do texto principal (preto/cinza escuro) */
+    --text-secondary: #6366F1;      /* Cor do texto secundário (cinza médio) */
+    
+    /* Outros */
+    --border-color: #e2e8f0;        /* Cor das bordas (cinza claro) */
+    
+    /* Sombras */
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    /* Sombra pequena - usada em cards e botões */
+    
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* Sombra grande - usada em modais e cards ao passar mouse */
+}
+
+/* ============================================================================
+   ESTILOS DO BODY (CORPO DA PÁGINA)
+   ============================================================================ */
+body {
+    /* Fonte do sistema - usa a fonte padrão do sistema operacional */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    /* Tenta usar fonte do sistema, se não conseguir, usa Arial */
+    
+    background: var(--background);  /* Usa a variável de cor de fundo */
+    color: var(--text-primary);     /* Cor padrão do texto */
+    line-height: 1.6;               /* Espaçamento entre linhas (melhora legibilidade) */
+}
+
+/* ============================================================================
+   SISTEMA DE TELAS (SCREENS)
+   ============================================================================ */
+/* Sistema que mostra/esconde telas diferentes */
+
+/* Classe base para todas as telas - inicialmente escondidas */
+.screen {
+    display: none;  /* display: none = elemento não aparece na tela */
+}
+
+/* Quando uma tela tem a classe "active", ela aparece */
+.screen.active {
+    display: block;  /* display: block = elemento aparece como bloco */
+}
+
+/* ============================================================================
+   TELA DE LOGIN
+   ============================================================================ */
+
+/* Container principal do login - ocupa toda a altura da tela */
+.login-container {
+    min-height: 100vh;  /* 100vh = 100% da altura da viewport (tela visível) */
+    display: flex;       /* Flexbox - permite centralizar conteúdo facilmente */
+    align-items: center;     /* Centraliza verticalmente */
+    justify-content: center;  /* Centraliza horizontalmente */
+    padding: 20px;            /* Espaçamento interno */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Gradiente roxo/azul de canto a canto */
+}
+
+/* Card branco do login */
+.login-card {
+    background: var(--surface);      /* Fundo branco */
+    padding: 40px;                    /* Espaçamento interno */
+    border-radius: 16px;              /* Bordas arredondadas */
+    box-shadow: var(--shadow-lg);     /* Sombra grande (dá profundidade) */
+    width: 100%;                      /* Largura total do container */
+    max-width: 400px;                 /* Mas não passa de 400px (fica centralizado) */
+}
+
+/* Container do logo/ícone principal */
+.logo-container {
+    display: flex;                /* Flexbox para centralizar */
+    justify-content: center;      /* Centraliza horizontalmente */
+    margin-bottom: 16px;          /* Espaço abaixo do logo */
+}
+
+/* Ícone principal (MainIcon) no login */
+.main-icon {
+    width: 80px;                  /* Largura de 80 pixels */
+    height: 80px;                 /* Altura de 80 pixels */
+    object-fit: contain;          /* Mantém proporção, não corta a imagem */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    /* Adiciona sombra suave na imagem */
+}
+
+/* Título "Minimal API" no card de login */
+.login-card h1 {
+    text-align: center;           /* Centraliza o texto */
+    margin-bottom: 8px;           /* Espaço abaixo do título */
+    font-size: 32px;              /* Tamanho da fonte (bem grande) */
+    color: var(--text-primary);   /* Cor do texto */
+}
+
+/* Subtítulo abaixo do título */
+.subtitle {
+    text-align: center;           /* Centraliza */
+    color: var(--text-secondary); /* Cor cinza (menos destaque) */
+    margin-bottom: 32px;          /* Espaço abaixo */
+    font-size: 14px;              /* Fonte menor */
+}
+
+/* ============================================================================
+   FORMULÁRIOS
+   ============================================================================ */
+
+/* Grupo de campo do formulário (label + input) */
+.form-group {
+    margin-bottom: 20px;  /* Espaço entre cada campo */
+}
+
+/* Label (texto descritivo acima do campo) */
+.form-group label {
+    display: block;               /* Ocupa linha inteira (fica acima do input) */
+    margin-bottom: 8px;           /* Espaço entre label e input */
+    font-weight: 500;             /* Peso da fonte (semi-negrito) */
+    color: var(--text-primary);   /* Cor do texto */
+    font-size: 14px;              /* Tamanho da fonte */
+}
+
+/* Campo de input (texto, email, senha, número) */
+.form-group input {
+    width: 100%;                  /* Largura total do container */
+    padding: 12px;                /* Espaçamento interno (torna campo maior) */
+    border: 1px solid var(--border-color);  /* Borda cinza clara */
+    border-radius: 8px;           /* Bordas arredondadas */
+    font-size: 16px;              /* Tamanho da fonte */
+    transition: all 0.2s;          /* Animação suave quando muda estado */
+    background: var(--surface);    /* Fundo branco */
+}
+
+/* Quando o campo está focado (usuário clicou nele) */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;                              /* Remove borda padrão do navegador */
+    border-color: var(--primary-color);         /* Borda fica azul */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    /* Adiciona sombra azul ao redor (efeito de "glow") */
+}
+
+/* Campo de seleção (dropdown) */
+.form-group select {
+    width: 100%;                  /* Largura total */
+    padding: 12px;                 /* Espaçamento interno */
+    border: 1px solid var(--border-color);  /* Borda */
+    border-radius: 8px;            /* Bordas arredondadas */
+    font-size: 16px;               /* Tamanho da fonte */
+    transition: all 0.2s;          /* Animação */
+    background: var(--surface);     /* Fundo branco */
+    cursor: pointer;               /* Cursor vira "mão" ao passar mouse */
+}
+
+/* Ícones dentro de botões */
+.icon-btn {
+    width: 16px;                   /* Largura pequena (16 pixels) */
+    height: 16px;                  /* Altura pequena */
+    object-fit: contain;           /* Mantém proporção */
+    vertical-align: middle;        /* Alinha verticalmente com o texto */
+}
+
+/* ============================================================================
+   BOTÕES
+   ============================================================================ */
+
+/* Classe base para todos os botões */
+.btn {
+    padding: 12px 24px;            /* Espaçamento interno (vertical, horizontal) */
+    border: none;                  /* Remove borda padrão */
+    border-radius: 8px;             /* Bordas arredondadas */
+    font-size: 16px;               /* Tamanho da fonte */
+    font-weight: 500;              /* Peso da fonte (semi-negrito) */
+    cursor: pointer;               /* Cursor vira "mão" ao passar mouse */
+    transition: all 0.2s;          /* Animação suave em todas as propriedades */
+    display: inline-flex;          /* Flexbox inline (permite alinhar ícone e texto) */
+    align-items: center;           /* Alinha itens verticalmente */
+    gap: 8px;                      /* Espaço entre ícone e texto */
+}
+
+/* Botão Primário (azul - ações principais) */
+.btn-primary {
+    background: var(--primary-color);  /* Fundo azul */
+    color: white;                      /* Texto branco */
+    width: 100%;                       /* Largura total (no formulário de login) */
+    justify-content: center;           /* Centraliza conteúdo */
+}
+
+/* Quando passa o mouse sobre botão primário */
+.btn-primary:hover {
+    background: var(--primary-dark);   /* Fica mais escuro */
+    transform: translateY(-1px);       /* Sobe 1 pixel (efeito de "levantar") */
+    box-shadow: var(--shadow);        /* Adiciona sombra */
+}
+
+/* Botão Secundário (cinza - ações secundárias) */
+.btn-secondary {
+    background: var(--secondary-color);  /* Fundo cinza */
+    color: #42428f;                         /* Texto branco */
+}
+
+/* Hover do botão secundário */
+.btn-secondary:hover {
+    background: #adb9c9;  /* Fica mais escuro */
+}
+
+/* Botão de Perigo (vermelho - excluir) */
+.btn-danger {
+    background: var(--danger-color);  /* Fundo vermelho */
+    color: white;                     /* Texto branco */
+}
+
+/* Hover do botão de perigo */
+.btn-danger:hover {
+    background: #dc2626;  /* Vermelho mais escuro */
+}
+
+/* Botão de Sucesso (verde - editar, confirmar) */
+.btn-success {
+    background: var(--success-color);  /* Fundo verde */
+    color: white;                      /* Texto branco */
+}
+
+/* Hover do botão de sucesso */
+.btn-success:hover {
+    background: #059669;  /* Verde mais escuro */
+}
+
+/* ============================================================================
+   MENSAGENS DE ERRO
+   ============================================================================ */
+
+/* Container de mensagem de erro */
+.error-message {
+    color: var(--danger-color);  /* Texto vermelho */
+    font-size: 14px;              /* Fonte pequena */
+    margin-top: 12px;             /* Espaço acima */
+    display: none;                /* Inicialmente escondida */
+}
+
+/* Quando tem a classe "show", aparece */
+.error-message.show {
+    display: block;  /* Aparece na tela */
+}
+
+/* ============================================================================
+   HEADER (CABEÇALHO)
+   ============================================================================ */
+
+/* Cabeçalho da aplicação (barra no topo) */
+.header {
+    background: var(--surface);   /* Fundo branco */
+    box-shadow: var(--shadow);    /* Sombra pequena (dá separação visual) */
+    padding: 20px 0;              /* Espaçamento vertical */
+    margin-bottom: 32px;         /* Espaço abaixo do header */
+}
+
+/* Container do conteúdo do header */
+.header-content {
+    max-width: 1200px;            /* Largura máxima (não fica muito largo) */
+    margin: 0 auto;               /* Centraliza horizontalmente */
+    padding: 0 24px;              /* Espaçamento lateral */
+    display: flex;                 /* Flexbox */
+    justify-content: space-between; /* Espaço entre título e info do usuário */
+    align-items: center;          /* Alinha verticalmente */
+}
+
+/* Container do título e ícone do header */
+.header-title {
+    display: flex;                /* Flexbox */
+    align-items: center;          /* Alinha ícone e texto verticalmente */
+    gap: 12px;                    /* Espaço entre ícone e texto */
+}
+
+/* Ícone no header (menor que no login) */
+.header-icon {
+    width: 32px;                  /* 32 pixels de largura */
+    height: 32px;                 /* 32 pixels de altura */
+    object-fit: contain;          /* Mantém proporção */
+}
+
+/* Título "Gerenciamento de Veículos" */
+.header h2 {
+    font-size: 24px;              /* Tamanho da fonte */
+    color: var(--text-primary);    /* Cor do texto */
+    margin: 0;                     /* Remove margem padrão */
+}
+
+/* Container com email do usuário e botão sair */
+.user-info {
+    display: flex;                 /* Flexbox */
+    align-items: center;          /* Alinha verticalmente */
+    gap: 16px;                     /* Espaço entre email e botão */
+}
+
+/* Texto do email do usuário */
+.user-info span {
+    color: var(--text-secondary);  /* Cor cinza */
+    font-size: 14px;              /* Fonte pequena */
+}
+
+/* ============================================================================
+   CONTEÚDO PRINCIPAL
+   ============================================================================ */
+
+/* Container do conteúdo principal */
+.main-content {
+    max-width: 1200px;            /* Largura máxima */
+    margin: 0 auto;                /* Centraliza */
+    padding: 0 24px 40px;          /* Espaçamento (esquerda/direita, baixo) */
+}
+
+/* Barra de ferramentas (toolbar) com botões */
+.toolbar {
+    display: flex;                 /* Flexbox - botões lado a lado */
+    gap: 12px;                     /* Espaço entre botões */
+    margin-bottom: 24px;          /* Espaço abaixo */
+}
+
+/* ============================================================================
+   INDICADOR DE CARREGAMENTO
+   ============================================================================ */
+
+/* Mensagem "Carregando..." */
+.loading {
+    text-align: center;            /* Centraliza texto */
+    padding: 40px;                 /* Espaçamento interno */
+    color: var(--text-secondary);  /* Cor cinza */
+    display: none;                 /* Inicialmente escondido */
+}
+
+/* Quando tem classe "show", aparece */
+.loading.show {
+    display: block;
+}
+
+/* ============================================================================
+   GRADE DE VEÍCULOS (GRID)
+   ============================================================================ */
+
+/* Container que organiza os cards em grade */
+.veiculos-grid {
+    display: grid;  /* CSS Grid - sistema de layout em grade */
+    /* 
+       grid-template-columns: cria colunas automaticamente
+       repeat(auto-fill, minmax(300px, 1fr)) = 
+       - Cria quantas colunas couber
+       - Cada coluna tem no mínimo 300px
+       - Se sobrar espaço, distribui igualmente (1fr = fração)
+    */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;                     /* Espaço entre os cards */
+    display: none;                 /* Inicialmente escondido */
+}
+
+/* Quando tem classe "show", aparece como grid */
+.veiculos-grid.show {
+    display: grid;
+}
+
+/* Card individual de cada veículo */
+.veiculo-card {
+    background: var(--surface);    /* Fundo branco */
+    border-radius: 12px;           /* Bordas arredondadas */
+    padding: 24px;                  /* Espaçamento interno */
+    box-shadow: var(--shadow);      /* Sombra pequena */
+    transition: all 0.2s;          /* Animação suave */
+    border: 1px solid var(--border-color);  /* Borda sutil */
+}
+
+/* Quando passa o mouse sobre o card */
+.veiculo-card:hover {
+    transform: translateY(-2px);   /* Sobe 2 pixels (efeito de "flutuar") */
+    box-shadow: var(--shadow-lg);   /* Sombra maior */
+}
+
+/* Título do card (nome do veículo) */
+.veiculo-card h3 {
+    font-size: 20px;               /* Tamanho da fonte */
+    margin-bottom: 8px;            /* Espaço abaixo */
+    color: var(--text-primary);    /* Cor do texto */
+}
+
+/* Texto da marca no card */
+.veiculo-card .marca {
+    color: var(--text-secondary);  /* Cor cinza */
+    font-size: 14px;               /* Fonte pequena */
+    margin-bottom: 4px;            /* Espaço abaixo */
+}
+
+/* Texto do ano no card */
+.veiculo-card .ano {
+    color: var(--primary-color);   /* Cor azul (destaque) */
+    font-weight: 600;              /* Negrito */
+    font-size: 16px;               /* Tamanho da fonte */
+    margin-bottom: 16px;           /* Espaço abaixo */
+}
+
+/* Container com botões de ação do card */
+.veiculo-actions {
+    display: flex;                 /* Flexbox - botões lado a lado */
+    gap: 8px;                      /* Espaço entre botões */
+    margin-top: 16px;              /* Espaço acima */
+}
+
+/* Botões dentro do card */
+.veiculo-actions .btn {
+    flex: 1;                       /* Cada botão ocupa espaço igual */
+    padding: 8px 16px;             /* Padding menor (botões menores) */
+    font-size: 14px;               /* Fonte menor */
+}
+
+/* ============================================================================
+   ESTADO VAZIO (QUANDO NÃO HÁ DADOS)
+   ============================================================================ */
+
+/* Mensagem quando não há veículos/administradores */
+.empty-state {
+    text-align: center;            /* Centraliza conteúdo */
+    padding: 60px 20px;            /* Espaçamento interno */
+    display: none;                 /* Inicialmente escondido */
+}
+
+/* Quando tem classe "show", aparece */
+.empty-state.show {
+    display: block;
+}
+
+/* Texto da mensagem de estado vazio */
+.empty-state p {
+    color: var(--text-secondary);  /* Cor cinza */
+    font-size: 18px;               /* Tamanho da fonte */
+    margin-bottom: 24px;           /* Espaço abaixo */
+}
+
+/* ============================================================================
+   MODAL (POPUP)
+   ============================================================================ */
+
+/* Fundo escuro do modal (overlay) */
+.modal {
+    display: none;                 /* Inicialmente escondido */
+    position: fixed;               /* Fixo na tela (não rola com a página) */
+    top: 0;                        /* Começa do topo */
+    left: 0;                       /* Começa da esquerda */
+    width: 100%;                   /* Largura total da tela */
+    height: 100%;                  /* Altura total da tela */
+    background: rgba(0, 0, 0, 0.5); /* Fundo preto semi-transparente (50% opaco) */
+    z-index: 1000;                 /* Fica acima de tudo (número alto = mais acima) */
+    align-items: center;           /* Centraliza verticalmente */
+    justify-content: center;       /* Centraliza horizontalmente */
+    padding: 20px;                 /* Espaçamento (evita que modal encoste nas bordas) */
+}
+
+/* Quando tem classe "show", aparece */
+.modal.show {
+    display: flex;  /* Aparece como flexbox (permite centralizar) */
+}
+
+/* Conteúdo branco do modal (card dentro do fundo escuro) */
+.modal-content {
+    background: var(--surface);    /* Fundo branco */
+    border-radius: 16px;           /* Bordas arredondadas */
+    padding: 32px;                  /* Espaçamento interno */
+    width: 100%;                    /* Largura total do container */
+    max-width: 500px;               /* Mas não passa de 500px */
+    box-shadow: var(--shadow-lg);   /* Sombra grande */
+    max-height: 90vh;               /* Altura máxima (90% da tela) */
+    overflow-y: auto;               /* Se conteúdo for maior, permite rolar */
+}
+
+/* Cabeçalho do modal (título + botão X) */
+.modal-header {
+    display: flex;                  /* Flexbox */
+    justify-content: space-between; /* Espaço entre título e X */
+    align-items: center;           /* Alinha verticalmente */
+    margin-bottom: 24px;           /* Espaço abaixo */
+}
+
+/* Título do modal */
+.modal-header h3 {
+    font-size: 24px;               /* Tamanho da fonte */
+    color: var(--text-primary);    /* Cor do texto */
+}
+
+/* Botão X para fechar modal */
+.close-btn {
+    background: none;              /* Sem fundo */
+    border: none;                  /* Sem borda */
+    font-size: 32px;               /* Tamanho grande (X bem visível) */
+    color: var(--text-secondary);  /* Cor cinza */
+    cursor: pointer;               /* Cursor vira "mão" */
+    line-height: 1;                /* Remove espaço extra */
+    padding: 0;                    /* Sem padding */
+    width: 32px;                   /* Largura fixa */
+    height: 32px;                  /* Altura fixa */
+    display: flex;                  /* Flexbox para centralizar X */
+    align-items: center;           /* Centraliza verticalmente */
+    justify-content: center;      /* Centraliza horizontalmente */
+    border-radius: 4px;            /* Bordas levemente arredondadas */
+    transition: all 0.2s;          /* Animação suave */
+}
+
+/* Quando passa mouse sobre o X */
+.close-btn:hover {
+    background: var(--background); /* Fundo cinza claro */
+    color: var(--text-primary);    /* Texto fica mais escuro */
+}
+
+/* Container com botões do modal (Cancelar e Salvar) */
+.modal-actions {
+    display: flex;                 /* Flexbox - botões lado a lado */
+    gap: 12px;                     /* Espaço entre botões */
+    margin-top: 24px;              /* Espaço acima */
+}
+
+/* Botões dentro do modal */
+.modal-actions .btn {
+    flex: 1;                       /* Cada botão ocupa espaço igual */
+}
+
+/* ============================================================================
+   DESIGN RESPONSIVO (MOBILE)
+   ============================================================================ */
+/* @media = regras que só se aplicam em certas condições */
+/* (max-width: 768px) = quando a tela tem no máximo 768px de largura (tablets/mobile) */
+
+@media (max-width: 768px) {
+    /* Header em telas pequenas */
+    .header-content {
+        flex-direction: column;   /* Empilha verticalmente (título em cima, info embaixo) */
+        gap: 16px;                 /* Espaço entre elementos */
+        align-items: flex-start;   /* Alinha à esquerda */
+    }
+
+    /* Título do header em mobile */
+    .header-title {
+        width: 100%;               /* Ocupa largura total */
+    }
+
+    /* Ícone principal menor em mobile */
+    .main-icon {
+        width: 60px;               /* Menor que no desktop (60px vs 80px) */
+        height: 60px;
+    }
+
+    /* Info do usuário em mobile */
+    .user-info {
+        width: 100%;               /* Ocupa largura total */
+        justify-content: space-between; /* Espaço entre email e botão */
+    }
+
+    /* Grid de veículos em mobile */
+    .veiculos-grid {
+        grid-template-columns: 1fr; /* Apenas 1 coluna (cards empilhados) */
+    }
+
+    /* Toolbar em mobile */
+    .toolbar {
+        flex-direction: column;    /* Botões empilhados verticalmente */
+    }
+
+    /* Botões da toolbar em mobile */
+    .toolbar .btn {
+        width: 100%;               /* Cada botão ocupa largura total */
+    }
+}

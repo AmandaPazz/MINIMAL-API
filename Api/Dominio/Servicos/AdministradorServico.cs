@@ -50,4 +50,17 @@ public class AdministradorServico : IAdministradorServico
     {
         return _contexto.Administradores.Where(v => v.Id == id).FirstOrDefault();
     }
+
+    public Administrador? Atualizar(Administrador administrador)
+    {
+        _contexto.Administradores.Update(administrador);
+        _contexto.SaveChanges();
+        return administrador;
+    }
+
+    public void Apagar(Administrador administrador)
+    {
+        _contexto.Administradores.Remove(administrador);
+        _contexto.SaveChanges();
+    }
 }

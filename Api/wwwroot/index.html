@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<!-- Declara que este é um documento HTML5 -->
+<html lang="pt-BR">
+<!-- Define o idioma da página como português brasileiro -->
+<head>
+    <!-- Cabeçalho da página - contém metadados e configurações -->
+    <meta charset="UTF-8">
+    <!-- Define a codificação de caracteres como UTF-8 (suporta acentos) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Configura a página para funcionar bem em dispositivos móveis -->
+    <title>Minimal API - Gerenciamento de Veículos</title>
+    <!-- Título que aparece na aba do navegador -->
+    <link rel="icon" type="image/png" href="/resources/MainIcon.png">
+    <!-- Define o ícone (favicon) que aparece na aba do navegador -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Carrega o arquivo CSS que contém todos os estilos visuais -->
+</head>
+<body>
+    <!-- ========== TELA DE LOGIN ========== -->
+    <!-- Esta é a primeira tela que o usuário vê quando acessa a aplicação -->
+    <div id="loginScreen" class="screen active">
+        <!-- 
+            id="loginScreen" - Identificador único para este elemento (usado no JavaScript)
+            class="screen" - Classe CSS que esconde/mostra telas
+            class="active" - Classe que faz esta tela aparecer (outras telas não têm "active")
+        -->
+        <div class="login-container">
+            <!-- Container que centraliza o card de login na tela -->
+            <div class="login-card">
+                <!-- Card branco que contém o formulário de login -->
+                
+                <!-- Logo/Ícone da aplicação -->
+                <div class="logo-container">
+                    <!-- Container que centraliza o ícone -->
+                    <img src="/resources/MainIcon.png" alt="Minimal API" class="main-icon">
+                    <!-- 
+                        src="/resources/MainIcon.png" - Caminho da imagem (servida pela API)
+                        alt="Minimal API" - Texto alternativo se a imagem não carregar
+                        class="main-icon" - Classe CSS que define tamanho e estilo do ícone
+                    -->
+                </div>
+                
+                <!-- Título da aplicação -->
+                <h1>Minimal API</h1>
+                <!-- Tag h1 = título principal (maior destaque) -->
+                
+                <!-- Subtítulo -->
+                <p class="subtitle">Sistema de Gerenciamento de Veículos</p>
+                <!-- Tag p = parágrafo de texto -->
+                
+                <!-- Formulário de Login -->
+                <form id="loginForm">
+                    <!-- 
+                        id="loginForm" - Identificador para o JavaScript capturar o evento de submit
+                        Quando o usuário clica em "Entrar", o JavaScript intercepta e faz a requisição
+                    -->
+                    
+                    <!-- Campo de Email -->
+                    <div class="form-group">
+                        <!-- Container que agrupa label e input -->
+                        <label for="email">Email</label>
+                        <!-- Label = texto descritivo do campo (for="email" conecta ao input) -->
+                        <input type="email" id="email" placeholder="admin@teste.com" required>
+                        <!-- 
+                            type="email" - Valida se é um email válido
+                            id="email" - Identificador para JavaScript pegar o valor
+                            placeholder - Texto de exemplo que aparece quando o campo está vazio
+                            required - Obriga o usuário a preencher antes de enviar
+                        -->
+                    </div>
+                    
+                    <!-- Campo de Senha -->
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" placeholder="admin" required>
+                        <!-- 
+                            type="password" - Esconde o texto digitado (mostra apenas •••)
+                            id="senha" - Identificador para JavaScript pegar o valor
+                        -->
+                    </div>
+                    
+                    <!-- Botão de Submit -->
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <!-- 
+                        type="submit" - Quando clicado, envia o formulário
+                        class="btn btn-primary" - Estilos CSS (botão azul/primário)
+                    -->
+                </form>
+                
+                <!-- Área de Mensagens de Erro -->
+                <div id="loginError" class="error-message"></div>
+                <!-- 
+                    id="loginError" - Onde o JavaScript mostra mensagens de erro
+                    Inicialmente vazio, aparece quando há erro no login
+                -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TELA PRINCIPAL (Após Login) ========== -->
+    <!-- Esta tela só aparece depois que o usuário faz login com sucesso -->
+    <div id="mainScreen" class="screen">
+        <!-- 
+            id="mainScreen" - Identificador da tela principal
+            Não tem "active" inicialmente, então está escondida
+            O JavaScript adiciona "active" quando o login é bem-sucedido
+        -->
+        
+        <!-- Cabeçalho da Aplicação -->
+        <header class="header">
+            <!-- Tag semântica HTML5 para cabeçalho -->
+            <div class="header-content">
+                <!-- Container que organiza o conteúdo do header -->
+                
+                <!-- Título e Ícone do Header -->
+                <div class="header-title">
+                    <!-- Container que agrupa ícone e título -->
+                    <img src="/resources/MainIcon.png" alt="Ícone" class="header-icon">
+                    <!-- Ícone menor que aparece ao lado do título -->
+                    <h2>Gerenciamento de Veículos</h2>
+                    <!-- Título da página (h2 = segundo nível de título) -->
+                </div>
+                
+                <!-- Informações do Usuário Logado -->
+                <div class="user-info">
+                    <!-- Container com email do usuário e botão de sair -->
+                    <span id="userEmail"></span>
+                    <!-- 
+                        id="userEmail" - Onde o JavaScript mostra o email do usuário logado
+                        Inicialmente vazio, preenchido após login
+                    -->
+                    <button id="logoutBtn" class="btn btn-secondary">Sair</button>
+                    <!-- Botão que faz logout (volta para tela de login) -->
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Tag semântica HTML5 para conteúdo principal -->
+            
+            <!-- Barra de Ferramentas (Toolbar) -->
+            <div class="toolbar">
+                <!-- Container com botões de ação -->
+                
+                <!-- Botão: Adicionar Veículo -->
+                <button id="addVeiculoBtn" class="btn btn-primary">+ Adicionar Veículo</button>
+                <!-- Abre modal para criar novo veículo -->
+                
+                <!-- Botão: Atualizar Lista -->
+                <button id="refreshBtn" class="btn btn-secondary" title="Atualizar">
+                    <!-- 
+                        Botão que recarrega a lista de veículos ou administradores
+                        title="Atualizar" - Texto que aparece ao passar o mouse
+                    -->
+                    <img src="/resources/ReloadIcon.png" alt="Atualizar" class="icon-btn" 
+                         onerror="this.style.display='none'; this.nextSibling.style.display='inline'">
+                    <!-- 
+                        src="/resources/ReloadIcon.png" - Ícone de atualizar
+                        onerror - Se a imagem não carregar, esconde ela e mostra o emoji abaixo
+                    -->
+                    <span style="display:none">🔄</span>
+                    <!-- Emoji de fallback (só aparece se a imagem não carregar) -->
+                </button>
+                
+                <!-- Botão: Administradores (Só aparece para perfil "Adm") -->
+                <button id="adminBtn" class="btn btn-secondary" style="display:none;">
+                    <!-- 
+                        id="adminBtn" - Botão para acessar gerenciamento de administradores
+                        style="display:none" - Inicialmente escondido
+                        O JavaScript mostra este botão apenas se userPerfil === "Adm"
+                    -->
+                    <img src="/resources/AdminIcon.png" alt="Administradores" class="icon-btn" 
+                         onerror="this.style.display='none'; this.nextSibling.style.display='inline'">
+                    <!-- 
+                        Ícone de administradores
+                        onerror - Se a imagem não carregar, esconde ela e mostra o emoji
+                    -->
+                    <span style="display:none">👥</span>
+                    <!-- Emoji de fallback (só aparece se a imagem não carregar) -->
+                    <span>Administradores</span>
+                    <!-- Texto do botão -->
+                </button>
+            </div>
+
+            <!-- ========== SEÇÃO DE VEÍCULOS ========== -->
+            <!-- Esta seção mostra a lista de veículos cadastrados -->
+            <div id="veiculosSection">
+                <!-- 
+                    id="veiculosSection" - Identificador da seção de veículos
+                    Esta é a seção padrão que aparece após login
+                -->
+                
+                <!-- Indicador de Carregamento -->
+                <div id="loading" class="loading">Carregando...</div>
+                <!-- 
+                    Aparece enquanto está buscando dados da API
+                    O JavaScript esconde quando os dados chegam
+                -->
+                
+                <!-- Lista de Veículos (Grid) -->
+                <div id="veiculosList" class="veiculos-grid"></div>
+                <!-- 
+                    id="veiculosList" - Onde o JavaScript insere os cards de veículos
+                    Inicialmente vazio, preenchido dinamicamente pelo JavaScript
+                    class="veiculos-grid" - CSS que organiza os cards em grade
+                -->
+                
+                <!-- Estado Vazio (quando não há veículos) -->
+                <div id="emptyState" class="empty-state">
+                    <!-- Aparece quando não há veículos cadastrados -->
+                    <p>Nenhum veículo cadastrado ainda.</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('addVeiculoBtn').click()">
+                        <!-- 
+                            onclick - Quando clicado, simula clique no botão "Adicionar Veículo"
+                            Isso abre o modal para criar o primeiro veículo
+                        -->
+                        Adicionar Primeiro Veículo
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========== SEÇÃO DE ADMINISTRADORES ========== -->
+            <!-- Esta seção só é acessível para usuários com perfil "Adm" -->
+            <div id="administradoresSection" style="display:none;">
+                <!-- 
+                    id="administradoresSection" - Identificador da seção de administradores
+                    style="display:none" - Inicialmente escondida
+                    O JavaScript mostra quando o admin clica no botão "Administradores"
+                -->
+                
+                <!-- Barra de Ferramentas da Seção de Administradores -->
+                <div class="toolbar">
+                    <!-- Botão: Adicionar Administrador -->
+                    <button id="addAdminBtn" class="btn btn-primary">+ Adicionar Administrador</button>
+                    <!-- Abre modal para criar novo administrador -->
+                    
+                    <!-- Botão: Voltar para Veículos -->
+                    <button id="backToVeiculosBtn" class="btn btn-secondary" title="Voltar para Veículos">
+                        <!-- 
+                            Botão que volta para a seção de veículos
+                            title - Texto que aparece ao passar o mouse (tooltip)
+                        -->
+                        <span>←</span>
+                        <!-- Apenas seta para esquerda, sem texto -->
+                    </button>
+                </div>
+                
+                <!-- Indicador de Carregamento -->
+                <div id="adminLoading" class="loading">Carregando...</div>
+                <!-- Aparece enquanto busca lista de administradores -->
+                
+                <!-- Lista de Administradores (Grid) -->
+                <div id="administradoresList" class="veiculos-grid"></div>
+                <!-- Onde o JavaScript insere os cards de administradores -->
+                
+                <!-- Estado Vazio (quando não há administradores) -->
+                <div id="adminEmptyState" class="empty-state">
+                    <p>Nenhum administrador cadastrado ainda.</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('addAdminBtn').click()">
+                        Adicionar Primeiro Administrador
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========== MODAL DE ADMINISTRADOR ========== -->
+    <!-- Modal = janela popup que aparece sobre a tela principal -->
+    <div id="adminModal" class="modal">
+        <!-- 
+            id="adminModal" - Identificador do modal de administrador
+            class="modal" - CSS que cria o fundo escuro e centraliza o conteúdo
+            Inicialmente escondido, aparece quando o JavaScript adiciona class="show"
+        -->
+        <div class="modal-content">
+            <!-- Container branco que contém o formulário -->
+            
+            <!-- Cabeçalho do Modal -->
+            <div class="modal-header">
+                <!-- Container com título e botão fechar -->
+                <h3 id="adminModalTitle">Adicionar Administrador</h3>
+                <!-- 
+                    id="adminModalTitle" - Título muda entre "Adicionar" e "Editar"
+                    O JavaScript altera este texto dinamicamente
+                -->
+                <button class="close-btn" id="closeAdminModal">&times;</button>
+                <!-- 
+                    Botão X para fechar o modal
+                    &times; = símbolo de multiplicação (X)
+                -->
+            </div>
+            
+            <!-- Formulário de Administrador -->
+            <form id="adminForm">
+                <!-- 
+                    id="adminForm" - Identificador para JavaScript capturar submit
+                    Quando salva, envia POST (novo) ou PUT (editar) para API
+                -->
+                
+                <!-- Campo Oculto: ID do Administrador -->
+                <input type="hidden" id="adminId">
+                <!-- 
+                    type="hidden" - Campo invisível que armazena o ID
+                    Vazio = novo administrador | Com ID = editar existente
+                -->
+                
+                <!-- Campo: Email -->
+                <div class="form-group">
+                    <label for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" placeholder="exemplo@teste.com" required>
+                    <!-- Campo de email do administrador -->
+                </div>
+                
+                <!-- Campo: Senha -->
+                <div class="form-group">
+                    <label for="adminSenha">Senha</label>
+                    <input type="password" id="adminSenha" placeholder="Senha" required>
+                    <!-- Campo de senha (escondido ao digitar) -->
+                </div>
+                
+                <!-- Campo: Perfil (Dropdown) -->
+                <div class="form-group">
+                    <label for="adminPerfil">Perfil</label>
+                    <select id="adminPerfil" required>
+                        <!-- 
+                            select = dropdown (lista suspensa)
+                            required = obrigatório preencher
+                        -->
+                        <option value="Adm">Administrador</option>
+                        <!-- Opção 1: Perfil de administrador (acesso total) -->
+                        <option value="Editor">Editor</option>
+                        <!-- Opção 2: Perfil de editor (acesso limitado) -->
+                    </select>
+                </div>
+                
+                <!-- Área de Erros do Formulário -->
+                <div id="adminFormError" class="error-message"></div>
+                <!-- Onde aparecem mensagens de erro de validação -->
+                
+                <!-- Botões de Ação do Modal -->
+                <div class="modal-actions">
+                    <!-- Container com botões Cancelar e Salvar -->
+                    <button type="button" class="btn btn-secondary" id="cancelAdminBtn">Cancelar</button>
+                    <!-- 
+                        type="button" - Não envia o formulário, apenas fecha o modal
+                    -->
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <!-- type="submit" - Envia o formulário quando clicado -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE VEÍCULO ========== -->
+    <!-- Modal para adicionar ou editar veículos -->
+    <div id="veiculoModal" class="modal">
+        <!-- Similar ao modal de administrador, mas para veículos -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Adicionar Veículo</h3>
+                <!-- Título muda entre "Adicionar" e "Editar" -->
+                <button class="close-btn" id="closeModal">&times;</button>
+                <!-- Botão X para fechar -->
+            </div>
+            
+            <!-- Formulário de Veículo -->
+            <form id="veiculoForm">
+                <!-- Campo Oculto: ID do Veículo -->
+                <input type="hidden" id="veiculoId">
+                <!-- Vazio = novo | Com ID = editar -->
+                
+                <!-- Campo: Nome do Veículo -->
+                <div class="form-group">
+                    <label for="nome">Nome do Veículo</label>
+                    <input type="text" id="nome" placeholder="Ex: Civic" required>
+                    <!-- Campo de texto para nome do veículo -->
+                </div>
+                
+                <!-- Campo: Marca -->
+                <div class="form-group">
+                    <label for="marca">Marca</label>
+                    <input type="text" id="marca" placeholder="Ex: Honda" required>
+                    <!-- Campo de texto para marca do veículo -->
+                </div>
+                
+                <!-- Campo: Ano -->
+                <div class="form-group">
+                    <label for="ano">Ano</label>
+                    <input type="number" id="ano" placeholder="Ex: 2024" min="1950" required>
+                    <!-- 
+                        type="number" - Aceita apenas números
+                        min="1950" - Valor mínimo permitido
+                    -->
+                </div>
+                
+                <!-- Área de Erros -->
+                <div id="formError" class="error-message"></div>
+                
+                <!-- Botões de Ação -->
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========== SCRIPT JAVASCRIPT ========== -->
+    <!-- Carrega o arquivo JavaScript que contém toda a lógica da aplicação -->
+    <script src="app.js"></script>
+    <!-- 
+        src="app.js" - Caminho do arquivo JavaScript
+        Este script é executado após o HTML carregar
+        Contém todas as funções de comunicação com API e manipulação da interface
+    -->
+</body>
+</html>
