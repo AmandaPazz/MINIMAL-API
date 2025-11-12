@@ -103,4 +103,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# App settings (protege informações sensíveis como senhas)
+# Ignora appsettings.json mas mantém o arquivo de exemplo
+Api/appsettings.json
+Test/appsettings.json
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,dotnetcore,visualstudiocode
